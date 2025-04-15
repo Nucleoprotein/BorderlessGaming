@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
+﻿using System.Diagnostics;
 using System.Globalization;
-using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
-using System.Threading.Tasks;
 using BorderlessGaming.Logic.Models;
 using BorderlessGaming.Logic.System.Utilities;
 using BorderlessGaming.Logic.Windows.Audio;
@@ -20,6 +15,13 @@ namespace BorderlessGaming.Logic.Windows
         public delegate bool EnumWindows_CallBackProc(IntPtr hwnd, uint lParam);
 
         #endregion
+
+        public const int WINEVENT_INCONTEXT = 4;
+        public const int WINEVENT_OUTOFCONTEXT = 0;
+        public const int WINEVENT_SKIPOWNPROCESS = 2;
+        public const int WINEVENT_SKIPOWNTHREAD = 1;
+        public const int EVENT_SYSTEM_FOREGROUND = 3;
+
 
         public const int INVALID_HANDLE_VALUE = -1;
         private const uint WM_GETTEXT = 0x0000000D;
@@ -340,7 +342,7 @@ namespace BorderlessGaming.Logic.Windows
                 {
                     if (IsWindowVisible(hWndEnumerated))
                     {
-                        if ((uint) styleCurrentWindow_standard != 0)
+                        if ((uint)styleCurrentWindow_standard != 0)
                         {
                             GetMainWindowForProcess_Value = hWndEnumerated;
                             return false;
@@ -637,18 +639,18 @@ namespace BorderlessGaming.Logic.Windows
             {
                 if (obj is Rect)
                 {
-                    return Equals((Rect) obj);
+                    return Equals((Rect)obj);
                 }
                 if (obj is Rectangle)
                 {
-                    return Equals(new Rect((Rectangle) obj));
+                    return Equals(new Rect((Rectangle)obj));
                 }
                 return false;
             }
 
             public override int GetHashCode()
             {
-                return ((Rectangle) this).GetHashCode();
+                return ((Rectangle)this).GetHashCode();
             }
 
             public override string ToString()
@@ -666,6 +668,6 @@ namespace BorderlessGaming.Logic.Windows
         public static extern uint GetProcessIdOfThread(IntPtr handle);
 
         [DllImport("user32.dll")]
-       public static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, WinEventDelegate lpfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
+        public static extern IntPtr SetWinEventHook(uint eventMin, uint eventMax, IntPtr hmodWinEventProc, WinEventDelegate lpfnWinEventProc, uint idProcess, uint idThread, uint dwFlags);
     }
 }

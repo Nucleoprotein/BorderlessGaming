@@ -1,8 +1,5 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
-using System.Threading.Tasks;
 using BorderlessGaming.Logic.System.Utilities;
 using BorderlessGaming.Logic.Windows;
 
@@ -30,15 +27,15 @@ namespace BorderlessGaming.Logic.Models
 
             WindowHandle = hWnd;
             WindowTitle = Native.GetWindowTitle(WindowHandle);
-          //  GetWindowTitle();
+            //  GetWindowTitle();
 
             //this.WindowClass = WindowsAPI.Native.GetWindowClassName(this.WindowHandle); // note: this isn't used, currently
         }
 
         private async void GetWindowTitle()
         {
-           await TaskUtilities.StartTaskAndWait(() => { WindowTitle = Native.GetWindowTitle(WindowHandle); },
-                Config.Instance.AppSettings.SlowWindowDetection ? 10 : 2);
+            await TaskUtilities.StartTaskAndWait(() => { WindowTitle = Native.GetWindowTitle(WindowHandle); },
+                 Config.Instance.AppSettings.SlowWindowDetection ? 10 : 2);
         }
 
         // Automatically detects changes to the window handle
@@ -146,7 +143,7 @@ namespace BorderlessGaming.Logic.Models
                     var styleCurrentWindowExtended = Native.GetWindowLong(WindowHandle, WindowLongIndex.ExtendedStyle);
 
                     var extraDetails =
-                        $" [{(uint) styleCurrentWindowStandard:X8}.{(uint) styleCurrentWindowExtended:X8}]";
+                        $" [{(uint)styleCurrentWindowStandard:X8}.{(uint)styleCurrentWindowExtended:X8}]";
                     return string.IsNullOrWhiteSpace(WindowTitle.Trim())
                         ? $"{BinaryName} [#{Proc.Id}]{extraDetails}"
                         : $"{WindowTitle.Trim()} [{BinaryName}, #{Proc.Id}]{extraDetails}";

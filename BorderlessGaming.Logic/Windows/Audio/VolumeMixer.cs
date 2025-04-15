@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace BorderlessGaming.Logic.Windows.Audio
 {
@@ -64,7 +63,7 @@ namespace BorderlessGaming.Logic.Windows.Audio
         private static ISimpleAudioVolume GetVolumeObject(int pid)
         {
             // get the speakers (1st render + multimedia) device
-            var deviceEnumerator = (IMmDeviceEnumerator) new MMDeviceEnumerator();
+            var deviceEnumerator = (IMmDeviceEnumerator)new MMDeviceEnumerator();
             IMmDevice speakers;
             deviceEnumerator.GetDefaultAudioEndpoint(EDataFlow.ERender, ERole.EMultimedia, out speakers);
 
@@ -72,7 +71,7 @@ namespace BorderlessGaming.Logic.Windows.Audio
             var iidIAudioSessionManager2 = typeof(IAudioSessionManager2).GUID;
             object o;
             speakers.Activate(ref iidIAudioSessionManager2, 0, IntPtr.Zero, out o);
-            var mgr = (IAudioSessionManager2) o;
+            var mgr = (IAudioSessionManager2)o;
 
             // enumerate sessions for on this device
             IAudioSessionEnumerator sessionEnumerator;

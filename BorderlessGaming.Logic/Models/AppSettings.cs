@@ -33,13 +33,6 @@ namespace BorderlessGaming.Logic.Models
         [ProtoMember(9)]
         public bool CloseToTray { get; set; }
 
-        [ProtoMember(10)]
-        [DefaultValue(true)]
-        public bool CheckForUpdates { get; set; } = true;
-
-        [ProtoMember(11)]
-        public bool DisableSteamIntegration { get; set; }
-
         [ProtoMember(12)]
         [DefaultValue("en-US")]
         public string DefaultCulture { get; set; } = "en-US";

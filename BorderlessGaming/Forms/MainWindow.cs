@@ -1,14 +1,9 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Diagnostics;
-using System.Drawing;
 using System.Reflection;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using BorderlessGaming.Logic.Core;
 using BorderlessGaming.Logic.Extensions;
 using BorderlessGaming.Logic.Models;
-using BorderlessGaming.Logic.Steam;
 using BorderlessGaming.Logic.System;
 using BorderlessGaming.Logic.Windows;
 using BorderlessGaming.Properties;
@@ -22,7 +17,56 @@ namespace BorderlessGaming.Forms
         {
             _watcher = new ProcessWatcher(this);
             InitializeComponent();
-            LanguageManager.Setup(toolStripLanguages);
+            LanguageManager.Setup(this, toolStripLanguages);
+
+            contextAddToFavs.Text = LanguageManager.Data("contextAddToFavs");
+            toolStripByTheWindowTitle.Text = LanguageManager.Data("toolStripByTheWindowTitle");
+            toolStripByRegex.Text = LanguageManager.Data("toolStripByRegex");
+            toolStripByProcess.Text = LanguageManager.Data("toolStripByProcess");
+            contextBorderless.Text = LanguageManager.Data("contextBorderless");
+            contextBorderlessOn.Text = LanguageManager.Data("contextBorderlessOn");
+            toolStripSetWindowTitle.Text = LanguageManager.Data("toolStripSetWindowTitle");
+            toolStripHideProcess.Text = LanguageManager.Data("toolStripHideProcess");
+            contextFavScreen.Text = LanguageManager.Data("contextFavScreen");
+            toolStripFullScreen.Text = LanguageManager.Data("toolStripFullScreen");
+            toolStripNoSizeChange.Text = LanguageManager.Data("toolStripNoSizeChange");
+            toolStripSetSetWindowSize.Text = LanguageManager.Data("toolStripSetSetWindowSize");
+            toolStripAutomaximize.Text = LanguageManager.Data("toolStripAutomaximize");
+            toolStripAdjustWindowBounds.Text = LanguageManager.Data("toolStripAdjustWindowBounds");
+            toolStripAlwaysOnTop.Text = LanguageManager.Data("toolStripAlwaysOnTop");
+            toolStripDelayBorderless.Text = LanguageManager.Data("toolStripDelayBorderless");
+            toolStripHideMouseCursor.Text = LanguageManager.Data("toolStripHideMouseCursor");
+            toolStripHideWindowsTaskbar.Text = LanguageManager.Data("toolStripHideWindowsTaskbar");
+            toolStripRemoveMenus.Text = LanguageManager.Data("toolStripRemoveMenus");
+            toolStripMuteInBackground.Text = LanguageManager.Data("toolStripMuteInBackground");
+            contextRemoveFromFavs.Text = LanguageManager.Data("contextRemoveFromFavs");
+            processLabel.Text = LanguageManager.Data("processLabel");
+            favoritesLabel.Text = LanguageManager.Data("favoritesLabel");
+            toolStripOptions.Text = LanguageManager.Data("toolStripOptions");
+            toolStripRunOnStartup.Text = LanguageManager.Data("toolStripRunOnStartup");
+            toolStripGlobalHotkey.Text = LanguageManager.Data("toolStripGlobalHotkey") + " (Win+F6)";
+            toolStripMouseLock.Text = LanguageManager.Data("toolStripMouseLock") + " (Scroll Lock)";
+            toolStripMouseHide.Text = LanguageManager.Data("toolStripMouseHide") + " (Win+Scroll Lock)";
+            toolStripMinimizedToTray.Text = LanguageManager.Data("toolStripMinimizedToTray");
+            toolStripCloseToTray.Text = LanguageManager.Data("toolStripCloseToTray");
+            toolStripHideBalloonTips.Text = LanguageManager.Data("toolStripHideBalloonTips");
+            toolStripSlowWindowDetection.Text = LanguageManager.Data("toolStripSlowWindowDetection");
+            toolStripViewFullProcessDetails.Text = LanguageManager.Data("toolStripViewFullProcessDetails");
+            toolStripRestoreProcesses.Text = LanguageManager.Data("toolStripRestoreProcesses");
+            toolsToolStripMenuItem.Text = LanguageManager.Data("toolsToolStripMenuItem");
+            toolStripPauseAutomaticProcessing.Text = LanguageManager.Data("toolStripPauseAutomaticProcessing");
+            toolStripOpenDataFolder.Text = LanguageManager.Data("toolStripOpenDataFolder");
+            toolStripToggleMouseCursorVisibility.Text = LanguageManager.Data("toolStripToggleMouseCursorVisibility");
+            toolStripToggleWindowsTaskbar.Text = LanguageManager.Data("toolStripToggleWindowsTaskbar");
+            toolStripFullApplicationRefresh.Text = LanguageManager.Data("toolStripFullApplicationRefresh");
+            toolStripInfo.Text = LanguageManager.Data("toolStripInfo");
+            toolStripUsageGuide.Text = LanguageManager.Data("toolStripUsageGuide");
+            toolStripRegexReference.Text = LanguageManager.Data("toolStripRegexReference");
+            toolStripReportBug.Text = LanguageManager.Data("toolStripReportBug");
+            toolStripSupportUs.Text = LanguageManager.Data("toolStripSupportUs");
+            toolStripAbout.Text = LanguageManager.Data("toolStripAbout");
+            statusLabel.Text = LanguageManager.Data("statusLabel");
+            toolStripLanguages.Text = LanguageManager.Data("toolStripLanguages");
         }
 
         public void AddFavoriteToList(Favorite fav)
@@ -35,18 +79,12 @@ namespace BorderlessGaming.Forms
             lstFavorites.Items.Remove(fav);
         }
 
-        private void toolStripCheckForUpdates_CheckedChanged(object sender, EventArgs e)
-        {
-            Config.Instance.AppSettings.CheckForUpdates = toolStripCheckForUpdates.Checked;
-            Config.Save();
-        }
-
         #region Local data
 
         /// <summary>
         ///     The Borderless Toggle hotKey
         /// </summary>
-        private const int MakeBorderlessHotKey = (int) Keys.F6;
+        private const int MakeBorderlessHotKey = (int)Keys.F6;
 
         /// <summary>
         ///     The Borderless Toggle hotKey modifier
@@ -56,12 +94,12 @@ namespace BorderlessGaming.Forms
         /// <summary>
         ///     The Mouse Lock hotKey
         /// </summary>
-        private const int MouseLockHotKey = (int) Keys.Scroll;
+        private const int MouseLockHotKey = (int)Keys.Scroll;
 
         /// <summary>
         ///     The Mouse Hide hotkey
         /// </summary>
-        private const int MouseHideHotKey = (int) Keys.Scroll;
+        private const int MouseHideHotKey = (int)Keys.Scroll;
 
         /// <summary>
         ///     The Mouse Hide hotkey modifier
@@ -139,7 +177,7 @@ namespace BorderlessGaming.Forms
 
         private async void resetHiddenProcessesToolStripMenuItem_Click(object sender, EventArgs e)
         {
-           Config.Instance.ResetHiddenProcesses();
+            Config.Instance.ResetHiddenProcesses();
             await RefreshProcesses();
         }
 
@@ -208,6 +246,7 @@ namespace BorderlessGaming.Forms
 
         private void HandleProcessChange(ProcessDetails process, bool remove)
         {
+            this.PerformSafely(() => statusLabel.Text = $@"{LanguageManager.Data("moreOptionsLabel")} {DateTime.Now}");
             if (process == null)
             {
                 return;
@@ -220,7 +259,6 @@ namespace BorderlessGaming.Forms
             {
                 this.PerformSafely(() => lstProcesses.Items.Add(process));
             }
-            this.PerformSafely(() => statusLabel.Text = $@"{LanguageManager.Data("moreOptionsLabel")} {DateTime.Now}");
         }
 
         private async Task RefreshProcesses()
@@ -249,7 +287,7 @@ namespace BorderlessGaming.Forms
 
             if (lstProcesses.SelectedItem != null)
             {
-                var pd = (ProcessDetails) lstProcesses.SelectedItem;
+                var pd = (ProcessDetails)lstProcesses.SelectedItem;
 
                 validSelection = pd.Manageable;
             }
@@ -269,7 +307,7 @@ namespace BorderlessGaming.Forms
                 return;
             }
 
-            var pd = (ProcessDetails) lstProcesses.SelectedItem;
+            var pd = (ProcessDetails)lstProcesses.SelectedItem;
 
             if (!pd.Manageable)
             {
@@ -288,7 +326,7 @@ namespace BorderlessGaming.Forms
                 return;
             }
 
-            var pd = (ProcessDetails) lstProcesses.SelectedItem;
+            var pd = (ProcessDetails)lstProcesses.SelectedItem;
 
             if (!pd.Manageable)
             {
@@ -309,7 +347,7 @@ namespace BorderlessGaming.Forms
                 return;
             }
 
-            var pd = (ProcessDetails) lstProcesses.SelectedItem;
+            var pd = (ProcessDetails)lstProcesses.SelectedItem;
 
             if (!pd.Manageable)
             {
@@ -326,7 +364,7 @@ namespace BorderlessGaming.Forms
                 return;
             }
 
-            var pd = (ProcessDetails) lstProcesses.SelectedItem;
+            var pd = (ProcessDetails)lstProcesses.SelectedItem;
 
             if (!pd.Manageable)
             {
@@ -346,7 +384,7 @@ namespace BorderlessGaming.Forms
                 return;
             }
 
-            var pd = (ProcessDetails) lstProcesses.SelectedItem;
+            var pd = (ProcessDetails)lstProcesses.SelectedItem;
 
             if (!pd.Manageable)
             {
@@ -374,17 +412,17 @@ namespace BorderlessGaming.Forms
                 return;
             }
 
-            var pd = (ProcessDetails) lstProcesses.SelectedItem;
+            var pd = (ProcessDetails)lstProcesses.SelectedItem;
 
             if (!pd.Manageable)
             {
                 return;
             }
-          var favorite = new Favorite
-          {
-              Type = FavoriteType.Process,
-              SearchText = pd.BinaryName
-          };
+            var favorite = new Favorite
+            {
+                Type = FavoriteType.Process,
+                SearchText = pd.BinaryName
+            };
             Config.Instance.AddFavorite(favorite, () =>
             {
                 lstFavorites.Items.Add(favorite);
@@ -401,7 +439,7 @@ namespace BorderlessGaming.Forms
                 return;
             }
 
-            var pd = (ProcessDetails) lstProcesses.SelectedItem;
+            var pd = (ProcessDetails)lstProcesses.SelectedItem;
 
             if (!pd.Manageable)
             {
@@ -454,7 +492,7 @@ namespace BorderlessGaming.Forms
                 return;
             }
 
-            var pd = (ProcessDetails) lstProcesses.SelectedItem;
+            var pd = (ProcessDetails)lstProcesses.SelectedItem;
 
             if (!pd.Manageable)
             {
@@ -490,10 +528,10 @@ namespace BorderlessGaming.Forms
             {
                 return;
             }
-            var fav = (Favorite) lstFavorites.SelectedItem;
+            var fav = (Favorite)lstFavorites.SelectedItem;
             Config.Instance.RemoveFavorite(fav, () =>
             {
-              lstFavorites.Items.Remove(fav);
+                lstFavorites.Items.Remove(fav);
             });
         }
 
@@ -504,7 +542,7 @@ namespace BorderlessGaming.Forms
                 return;
             }
 
-            var fav = (Favorite) lstFavorites.SelectedItem;
+            var fav = (Favorite)lstFavorites.SelectedItem;
 
             Config.Instance.RemoveFavorite(fav, () =>
             {
@@ -521,7 +559,7 @@ namespace BorderlessGaming.Forms
                 return;
             }
 
-            var fav = (Favorite) lstFavorites.SelectedItem;
+            var fav = (Favorite)lstFavorites.SelectedItem;
             Config.Instance.RemoveFavorite(fav, () =>
             {
                 lstFavorites.Items.Remove(fav);
@@ -532,7 +570,7 @@ namespace BorderlessGaming.Forms
 
         private void adjustWindowBoundsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var fav = (Favorite) lstFavorites.SelectedItem;
+            var fav = (Favorite)lstFavorites.SelectedItem;
 
             Config.Instance.RemoveFavorite(fav, () =>
             {
@@ -565,7 +603,7 @@ out int favOffsetL);
 
         private void automaximizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var fav = (Favorite) lstFavorites.SelectedItem;
+            var fav = (Favorite)lstFavorites.SelectedItem;
 
             Config.Instance.RemoveFavorite(fav, () =>
             {
@@ -588,7 +626,7 @@ out int favOffsetL);
 
         private void hideMouseCursorToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var fav = (Favorite) lstFavorites.SelectedItem;
+            var fav = (Favorite)lstFavorites.SelectedItem;
             Config.Instance.RemoveFavorite(fav, () =>
             {
                 lstFavorites.Items.Remove(fav);
@@ -599,7 +637,7 @@ out int favOffsetL);
 
         private void hideWindowsTaskbarToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var fav = (Favorite) lstFavorites.SelectedItem;
+            var fav = (Favorite)lstFavorites.SelectedItem;
             Config.Instance.RemoveFavorite(fav, () =>
             {
                 lstFavorites.Items.Remove(fav);
@@ -612,7 +650,7 @@ out int favOffsetL);
 
         private void setWindowSizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var fav = (Favorite) lstFavorites.SelectedItem;
+            var fav = (Favorite)lstFavorites.SelectedItem;
 
 
             var result =
@@ -683,7 +721,7 @@ fav.PositionX.ToString()), out int favPositionX);
 
         private void fullScreenToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var fav = (Favorite) lstFavorites.SelectedItem;
+            var fav = (Favorite)lstFavorites.SelectedItem;
 
             Config.Instance.RemoveFavorite(fav, () =>
             {
@@ -711,7 +749,7 @@ fav.PositionX.ToString()), out int favPositionX);
 
         private void noSizeChangeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var fav = (Favorite) lstFavorites.SelectedItem;
+            var fav = (Favorite)lstFavorites.SelectedItem;
 
             Config.Instance.RemoveFavorite(fav, () =>
             {
@@ -738,7 +776,7 @@ fav.PositionX.ToString()), out int favPositionX);
 
         private void delayBorderlessToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var fav = (Favorite) lstFavorites.SelectedItem;
+            var fav = (Favorite)lstFavorites.SelectedItem;
 
             Config.Instance.RemoveFavorite(fav, () =>
             {
@@ -760,7 +798,7 @@ fav.PositionX.ToString()), out int favPositionX);
                 return;
             }
 
-            var fav = (Favorite) lstFavorites.SelectedItem;
+            var fav = (Favorite)lstFavorites.SelectedItem;
             toolStripFullScreen.Checked = fav.Size == FavoriteSize.FullScreen;
 
             toolStripMuteInBackground.Checked = fav.MuteInBackground;
@@ -802,7 +840,7 @@ fav.PositionX.ToString()), out int favPositionX);
                     var label = fixedDeviceName + (screen.Primary ? " (P)" : string.Empty);
                     var index = contextFavScreen.DropDownItems.Add(new ToolStripMenuItem
                     {
-                        Text =  label,
+                        Text = label,
                         CheckOnClick = true,
                         Checked = fav.FavScreen?.Equals(PRectangle.ToPRectangle(screen.Bounds)) ?? false
                     });
@@ -839,7 +877,7 @@ fav.PositionX.ToString()), out int favPositionX);
                 return;
             }
 
-            var pd = (ProcessDetails) lstProcesses.SelectedItem;
+            var pd = (ProcessDetails)lstProcesses.SelectedItem;
 
             if (!pd.Manageable)
             {
@@ -890,8 +928,6 @@ fav.PositionX.ToString()), out int favPositionX);
             }
         }
 
-        private ToolStripMenuItem _toolStripDisableSteamIntegration;
-
         /// <summary>
         ///     Sets up the form
         /// </summary>
@@ -904,7 +940,6 @@ fav.PositionX.ToString()), out int favPositionX);
             // load up settings
             toolStripRunOnStartup.Checked = settings.RunOnStartup;
             toolStripGlobalHotkey.Checked = settings.UseGlobalHotkey;
-            toolStripCheckForUpdates.Checked = settings.CheckForUpdates;
             toolStripMouseLock.Checked = settings.UseMouseLockHotkey;
             toolStripMouseHide.Checked = settings.UseMouseHideHotkey;
             toolStripMinimizedToTray.Checked = settings.StartMinimized;
@@ -922,46 +957,26 @@ fav.PositionX.ToString()), out int favPositionX);
             {
                 WindowState = FormWindowState.Normal;
             }
-
-            if (SteamApi.IsLoaded && _toolStripDisableSteamIntegration == null)
-            {
-                _toolStripDisableSteamIntegration =
-                    new ToolStripMenuItem
-                    {
-                        Name = "toolStripDisableSteamIntegration",
-                        Size = new Size(254, 22),
-                        Text = LanguageManager.Data("toolStripDisableSteamIntegration"),
-                        ToolTipText = LanguageManager.Data("steamHint"),
-                        Checked = settings.DisableSteamIntegration,
-                        CheckOnClick = true
-                    };
-                // let's do this before registering the CheckedChanged event
-                _toolStripDisableSteamIntegration.CheckedChanged +=
-                    ToolStripDisableSteamIntegrationCheckChanged;
-                toolsToolStripMenuItem.DropDownItems.Insert(0, _toolStripDisableSteamIntegration);
-            }
-        }
-
-        private void ToolStripDisableSteamIntegrationCheckChanged(object sender, EventArgs e)
-        {
-            Config.Instance.AppSettings.DisableSteamIntegration = _toolStripDisableSteamIntegration.Checked;
-            Config.Save();
         }
 
         private void MainWindow_Shown(object sender, EventArgs e)
         {
+            this.PerformSafely(() => statusLabel.Text = $@"{LanguageManager.Data("moreOptionsLabel")} {DateTime.Now}");
+
             // hide the window if desired (this doesn't work well in Load)
             if (Config.Instance.AppSettings.StartMinimized || Config.Instance.StartupOptions.Minimize)
             {
                 Hide();
-            } else {
-             //   if (Config.Instance.AppSettings.ShowAdOnStart)
-               // {
+            }
+            else
+            {
+                //   if (Config.Instance.AppSettings.ShowAdOnStart)
+                // {
                 //    var rainway = new Rainway { StartPosition = this.StartPosition, TopMost = true };
-                 //   rainway.ShowDialog(this);
-                 //   rainway.BringToFront();
+                //   rainway.ShowDialog(this);
+                //   rainway.BringToFront();
 
-               // }
+                // }
             }
             // initialize favorite list
             foreach (var ni in Config.Instance.Favorites)
@@ -1028,25 +1043,25 @@ fav.PositionX.ToString()), out int favPositionX);
         private void addSelectedItem_MouseHover(object sender, EventArgs e)
         {
             var ttTemp = new ToolTip();
-            ttTemp.SetToolTip((Control) sender, LanguageManager.Data("addFavorite"));
+            ttTemp.SetToolTip((Control)sender, LanguageManager.Data("addFavorite"));
         }
 
         private void btnRemoveFavorite_MouseHover(object sender, EventArgs e)
         {
             var ttTemp = new ToolTip();
-            ttTemp.SetToolTip((Control) sender, LanguageManager.Data("removeFavorite"));
+            ttTemp.SetToolTip((Control)sender, LanguageManager.Data("removeFavorite"));
         }
 
         private void btnMakeBorderless_MouseHover(object sender, EventArgs e)
         {
             var ttTemp = new ToolTip();
-            ttTemp.SetToolTip((Control) sender, LanguageManager.Data("makeBorderless"));
+            ttTemp.SetToolTip((Control)sender, LanguageManager.Data("makeBorderless"));
         }
 
         private void btnRestoreWindow_MouseHover(object sender, EventArgs e)
         {
             var ttTemp = new ToolTip();
-            ttTemp.SetToolTip((Control) sender, LanguageManager.Data("restoreBorders"));
+            ttTemp.SetToolTip((Control)sender, LanguageManager.Data("restoreBorders"));
         }
 
         #endregion
@@ -1131,8 +1146,8 @@ fav.PositionX.ToString()), out int favPositionX);
         {
             if (m.Msg == Native.WM_HOTKEY)
             {
-                var keystroke = ((uint) m.LParam >> 16) & 0x0000FFFF;
-                var keystrokeModifier = (uint) m.LParam & 0x0000FFFF;
+                var keystroke = ((uint)m.LParam >> 16) & 0x0000FFFF;
+                var keystrokeModifier = (uint)m.LParam & 0x0000FFFF;
 
                 // Global hotkey to make a window borderless
                 if (keystroke == MakeBorderlessHotKey && keystrokeModifier == MakeBorderlessHotKeyModifier)
@@ -1162,7 +1177,7 @@ fav.PositionX.ToString()), out int favPositionX);
                         // Otherwise, this is a fresh request to remove the border from the current window
                         else
                         {
-                             _watcher.RemoveBorder(pd).GetAwaiter().GetResult();
+                            _watcher.RemoveBorder(pd).GetAwaiter().GetResult();
                         }
                     }
 
@@ -1185,7 +1200,7 @@ fav.PositionX.ToString()), out int favPositionX);
                     Native.GetClientRect(hWnd, ref rect);
 
                     // get top,left point of clientarea
-                    var p = new Native.POINTAPI {X = 0, Y = 0};
+                    var p = new Native.POINTAPI { X = 0, Y = 0 };
                     Native.ClientToScreen(hWnd, ref p);
 
                     var clipRect = new Rectangle(p.X, p.Y, rect.Right - rect.Left, rect.Bottom - rect.Top);
@@ -1203,7 +1218,7 @@ fav.PositionX.ToString()), out int favPositionX);
 
         private void muteInBackgroundToolStripMenuItem_Click(object sender, EventArgs e)
         {
-      
+
             var fav = (Favorite)lstFavorites.SelectedItem;
             Config.Instance.RemoveFavorite(fav, () =>
             {
@@ -1216,7 +1231,8 @@ fav.PositionX.ToString()), out int favPositionX);
                 {
                     Native.UnMuteProcess(fav.RunningId);
                 }
-            } else if (fav.MuteInBackground)
+            }
+            else if (fav.MuteInBackground)
             {
                 if (fav.IsRunning && !Native.IsMuted(fav.RunningId))
                 {

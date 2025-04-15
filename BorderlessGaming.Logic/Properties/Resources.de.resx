@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -117,38 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="add" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\data\add.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="blank" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\data\blank.cur;System.Byte[], mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
-  </data>
-  <data name="bordered" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\data\bordered.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="borderless" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\data\borderless.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="ErrorFavoritesSave" xml:space="preserve">
-    <value>无法保存列表。 您是否拥有权限？\r\n\r\n错误详情: {0}</value>
-  </data>
   <data name="ErrorHeader" xml:space="preserve">
-    <value>错误</value>
+    <value>Fehler</value>
   </data>
   <data name="ErrorUpdates" xml:space="preserve">
-    <value>Borderless Gaming 在更新时遇到一个错误。 请重启此程序后再试。</value>
+    <value>Bei der Suche nach Updates trat ein Fehler auf. Starten Sie das Programm erneut um die Suche zu wiederholen.</value>
   </data>
   <data name="InfoUpdateAvailable" xml:space="preserve">
-    <value>Borderless Gaming 的一个新版本可用。 您是否想前往发布页？</value>
+    <value>Eine neue Version von Borderless Gaming ist verfügbar. Möchten Sie die Downloadseite jetzt besuchen?</value>
   </data>
   <data name="InfoUpdatesHeader" xml:space="preserve">
-    <value>新的更新可用</value>
-  </data>
-  <data name="remove" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\data\remove.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
-  </data>
-  <data name="TrayMinimized" xml:space="preserve">
-    <value>{0} 已经最小化.</value>
+    <value>Aktualisierung verfügbar</value>
   </data>
 </root>

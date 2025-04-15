@@ -119,7 +119,7 @@ namespace BorderlessGaming.Logic.Models
 
         public static Favorite FromWindow(ProcessDetails pd)
         {
-            return new Favorite {SearchText = pd.BinaryName};
+            return new Favorite { SearchText = pd.BinaryName };
         }
 
         public bool IsRunning { get; set; }

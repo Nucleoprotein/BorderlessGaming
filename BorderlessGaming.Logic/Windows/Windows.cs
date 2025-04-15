@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
+﻿using System.Diagnostics;
 using BorderlessGaming.Logic.Models;
 
 namespace BorderlessGaming.Logic.Windows
@@ -31,7 +28,7 @@ namespace BorderlessGaming.Logic.Windows
             {
                 if (Native.GetWindowRect(ptr, out Native.Rect rect))
                 {
-                    if (((Rectangle) rect).IsEmpty)
+                    if (((Rectangle)rect).IsEmpty)
                     {
                         continue;
                     }
@@ -43,7 +40,7 @@ namespace BorderlessGaming.Logic.Windows
                     }
                     uint processId;
                     Native.GetWindowThreadProcessId(ptr, out processId);
-                    callback(new ProcessDetails(Process.GetProcessById((int) processId), ptr)
+                    callback(new ProcessDetails(Process.GetProcessById((int)processId), ptr)
                     {
                         Manageable = true
                     });
@@ -77,7 +74,7 @@ namespace BorderlessGaming.Logic.Windows
                 case 1:
                     if (Native.IsWindowVisible(hWndEnumerated))
                     {
-                        if ((uint) styleCurrentWindowStandard != 0)
+                        if ((uint)styleCurrentWindowStandard != 0)
                         {
                             ptrList.Add(hWndEnumerated);
                         }

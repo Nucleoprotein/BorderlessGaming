@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using ProtoBuf;
+﻿using ProtoBuf;
 
 namespace BorderlessGaming.Logic.Models
 {
@@ -29,6 +28,10 @@ namespace BorderlessGaming.Logic.Models
             "vcredist_x86",
             "vcredist_x64",
             "msiexec",
+            "SystemSettings",
+            "ApplicationFrameHost",
+            "TextInputHost",
+            "devenv",
             // Skip common video streaming software
             "xsplit",
             // Skip common web browsers
@@ -36,12 +39,13 @@ namespace BorderlessGaming.Logic.Models
             "firefox",
             "chrome",
             "safari",
+            "msedge",
             // Skip launchers/misc.
             "iw4 console",
             "steam",
             "origin",
-            "uplay"
-
+            "uplay",
+            "NVIDIA Overlay",
             // Let them hide the rest manually
         };
 

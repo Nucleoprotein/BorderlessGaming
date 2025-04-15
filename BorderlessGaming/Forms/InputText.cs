@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
+﻿using System.ComponentModel;
 
 namespace BorderlessGaming.Forms
 {
@@ -10,18 +9,21 @@ namespace BorderlessGaming.Forms
             InitializeComponent();
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string Title
         {
             get => Text.Trim();
             set => Text = value.Trim();
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string Input
         {
             get => txtInput.Text.Trim();
             set => txtInput.Text = value.Trim();
         }
 
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public string Instructions
         {
             get => lblInstructions.Text.Trim();

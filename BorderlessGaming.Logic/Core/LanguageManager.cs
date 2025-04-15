@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Globalization;
-using System.IO;
-using System.Linq;
-using System.Threading;
-using System.Windows.Forms;
 using BorderlessGaming.Logic.Models;
 using BorderlessGaming.Logic.System;
 
@@ -18,8 +11,6 @@ namespace BorderlessGaming.Logic.Core
         public static string CurrentCulture { get; set; }
 
         private static readonly HashSet<string> CultureNames = CreateCultureNames();
-
-        private static readonly string _archiveName = "Languages.zip";
 
         private static Dictionary<string, Language> Languages { get; set; }
 
@@ -55,24 +46,6 @@ namespace BorderlessGaming.Logic.Core
         public static void Load()
         {
             Languages = new Dictionary<string, Language>();
-            if (File.Exists(_archiveName))
-            {
-                try
-                {
-                    if (Directory.Exists(AppEnvironment.LanguagePath))
-                    {
-                        Directory.Delete(AppEnvironment.LanguagePath, true);
-                        Directory.CreateDirectory(AppEnvironment.LanguagePath);
-                    }
-                    Tools.ExtractZipFile(_archiveName, string.Empty, AppEnvironment.LanguagePath);
-                    File.Delete(_archiveName);
-                }
-                catch (Exception e)
-                {
-                    MessageBox.Show("Failed to extract the language pack. Please report this: " + e.Message);
-                    Environment.Exit(1);
-                }
-            }
             if (!Directory.Exists(AppEnvironment.LanguagePath))
             {
                 MessageBox.Show("UI Translations are missing from disk.");
@@ -83,7 +56,7 @@ namespace BorderlessGaming.Logic.Core
                 var culture = Path.GetFileNameWithoutExtension(langFile);
                 if (culture != null && CultureExists(culture) && !Languages.ContainsKey(culture))
                 {
-                    var lang = new Language {Culture = culture};
+                    var lang = new Language { Culture = culture };
                     lang.LoadData(langFile);
                     if (lang.LanguageData != null)
                     {
@@ -93,16 +66,15 @@ namespace BorderlessGaming.Logic.Core
             }
             if (Languages.Count <= 0)
             {
-               MessageBox.Show($"No Langauges have been loaded! Ensure {AppEnvironment.LanguagePath} exist with at least one .lang file.");
-               Environment.Exit(0);
+                MessageBox.Show($"No Langauges have been loaded! Ensure {AppEnvironment.LanguagePath} exist with at least one .lang file.");
+                Environment.Exit(0);
             }
             var defaultLang = Languages.Values.FirstOrDefault(lang => lang.Culture.Equals(Config.Instance.AppSettings.DefaultCulture));
             defaultLang?.Set();
         }
 
-        public static void Setup(ToolStripMenuItem toolStripLanguages)
+        public static void Setup(Form mainWindow, ToolStripMenuItem toolStripLanguages)
         {
-
             foreach (var lang in Languages.Values)
             {
                 var item = toolStripLanguages.DropDownItems.Add(new ToolStripMenuItem
@@ -113,23 +85,26 @@ namespace BorderlessGaming.Logic.Core
                 });
                 toolStripLanguages.DropDownItems[item].Click += (s, ea) =>
                 {
-                    var tt = (ToolStripMenuItem)s;
-                    if (!tt.Checked)
+                    if (s != null)
                     {
-                        if (IsDefault(tt.Text) && !LanguageSelected(toolStripLanguages.DropDownItems))
+                        var tt = (ToolStripMenuItem)s;
+                        if (!tt.Checked)
                         {
-                            tt.Checked = true;
+                            if (tt.Text != null && IsDefault(tt.Text) && !LanguageSelected(toolStripLanguages.DropDownItems))
+                            {
+                                tt.Checked = true;
+                            }
+                            return;
                         }
-                        return;
-                    }
-                    foreach (ToolStripMenuItem dropItem in toolStripLanguages.DropDownItems)
-                    {
-                        if (dropItem != tt)
+                        foreach (ToolStripMenuItem dropItem in toolStripLanguages.DropDownItems)
                         {
-                            dropItem.Checked = false;
+                            if (dropItem != tt)
+                            {
+                                dropItem.Checked = false;
+                            }
                         }
+                        SetDefaultLanguage(mainWindow, tt.Text);
                     }
-                    SetDefaultLanguage(tt.Text);
                 };
             }
         }
@@ -159,7 +134,7 @@ namespace BorderlessGaming.Logic.Core
             }
         }
 
-        private static void SetDefaultLanguage(string tsiText)
+        private static void SetDefaultLanguage(Form mainWindow, string tsiText)
         {
             var langauge = Languages.Values.FirstOrDefault(lang => lang.DisplayName.Equals(tsiText));
             if (langauge != null)
@@ -171,9 +146,12 @@ namespace BorderlessGaming.Logic.Core
                     MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
-                    string batchContent = "/c \"@ECHO OFF & timeout /t 6 > nul & start \"\" \"$[APPPATH]$\" & exit\"";
-                    batchContent = batchContent.Replace("$[APPPATH]$", Application.ExecutablePath);
-                    Process.Start("cmd", batchContent);
+                    ProcessStartInfo Info = new ProcessStartInfo();
+                    Info.Arguments = "/C ping 127.0.0.1 -n 2 && \"" + Application.ExecutablePath + "\"";
+                    Info.WindowStyle = ProcessWindowStyle.Hidden;
+                    Info.CreateNoWindow = true;
+                    Info.FileName = "cmd.exe";
+                    Process.Start(Info);
                     Application.Exit();
                 }
             }

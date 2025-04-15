@@ -14,7 +14,7 @@ namespace BorderlessGaming.Logic.Extensions
             {
                 processIndexdName = index == 0 ? processName : processName + "#" + index;
                 var processId = new PerformanceCounter("Process", "ID Process", processIndexdName);
-                if ((int) processId.NextValue() == pid)
+                if ((int)processId.NextValue() == pid)
                 {
                     return processIndexdName;
                 }
@@ -22,11 +22,11 @@ namespace BorderlessGaming.Logic.Extensions
 
             return processIndexdName;
         }
-  
+
         private static Process FindPidFromIndexedProcessName(string indexedProcessName)
         {
             var parentId = new PerformanceCounter("Process", "Creating Process ID", indexedProcessName);
-            return Process.GetProcessById((int) parentId.NextValue());
+            return Process.GetProcessById((int)parentId.NextValue());
         }
 
         public static Process Parent(this Process process)

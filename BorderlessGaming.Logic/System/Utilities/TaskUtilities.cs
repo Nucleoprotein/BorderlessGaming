@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-
-namespace BorderlessGaming.Logic.System.Utilities
+﻿namespace BorderlessGaming.Logic.System.Utilities
 {
     public static class TaskUtilities
     {
@@ -18,11 +11,11 @@ namespace BorderlessGaming.Logic.System.Utilities
         {
             var ts = new CancellationTokenSource();
             var ct = ts.Token;
-           await Task.Run(async () =>
-            {
-                await Task.Delay(TimeSpan.FromSeconds(iHowLongToWait), ct);
-                target();
-            }, ct);
+            await Task.Run(async () =>
+             {
+                 await Task.Delay(TimeSpan.FromSeconds(iHowLongToWait), ct);
+                 target();
+             }, ct);
         }
 
         public static async Task StartTaskAndWait(Action target, int iHowLongToWait)

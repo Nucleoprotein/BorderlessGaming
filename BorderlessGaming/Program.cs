@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using BorderlessGaming.Forms;
-using BorderlessGaming.Logic.Models;
+﻿using BorderlessGaming.Forms;
 using BorderlessGaming.Logic.System;
 using BorderlessGaming.Logic.Windows;
 
@@ -12,24 +6,24 @@ namespace BorderlessGaming
 {
     static class Program
     {
-        /// <summary>
-        /// The main entry point for the application.
-        /// </summary>
+        static Mutex mutex = new Mutex(true, "BorderlessGamingMutex");
+
         [STAThread]
         static void Main()
         {
-          
+            if (!mutex.WaitOne(TimeSpan.Zero, true))
+            {
+                return;
+            }
+
+            Application.SetHighDpiMode(HighDpiMode.SystemAware);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+            Application.SetColorMode(SystemColorMode.System);
             Tools.Setup();
-            //use github updating for non-steam
-            if (!Config.Instance.StartupOptions.IsSteam && Config.Instance.AppSettings.CheckForUpdates)
-            {
-                Tools.CheckForUpdates();
-            }
             ForegroundManager.Subscribe();
             Application.Run(new MainWindow());
-          
+            mutex.ReleaseMutex();
         }
     }
 }

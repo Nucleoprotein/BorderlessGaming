@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using BorderlessGaming.Logic.Models;
+﻿using BorderlessGaming.Logic.Models;
 using BorderlessGaming.Logic.Properties;
-using BorderlessGaming.Logic.Steam;
 using BorderlessGaming.Logic.System.Utilities;
 
 namespace BorderlessGaming.Logic.Windows
@@ -50,7 +42,7 @@ namespace BorderlessGaming.Logic.Windows
                 {
                     if (processDetails.MadeBorderless)
                     {
-                        if (processDetails.MadeBorderlessAttempts > 3 || ! await processDetails.WindowHasTargetableStyles())
+                        if (processDetails.MadeBorderlessAttempts > 3 || !await processDetails.WindowHasTargetableStyles())
                         {
                             return;
                         }
@@ -72,8 +64,8 @@ namespace BorderlessGaming.Logic.Windows
                     styleCurrentWindowStandard
                     & ~(
                         WindowStyleFlags.Caption // composite of Border and DialogFrame
-                        //   | WindowStyleFlags.Border
-                        //   | WindowStyleFlags.DialogFrame                  
+                                                 //   | WindowStyleFlags.Border
+                                                 //   | WindowStyleFlags.DialogFrame                  
                         | WindowStyleFlags.ThickFrame
                         | WindowStyleFlags.SystemMenu
                         | WindowStyleFlags.MaximizeBox // same as TabStop
@@ -210,13 +202,6 @@ namespace BorderlessGaming.Logic.Windows
                 processDetails.MadeBorderless = true;
                 processDetails.MadeBorderlessAttempts++;
             }
-            if (SteamApi.IsLoaded)
-            {
-                if (SteamApi.UnlockAchievement("FIRST_TIME_BORDERLESS"))
-                {
-                    Console.WriteLine("Great!");
-                }
-            }
         }
 
         private static async Task MakeWindowBorderlessDelayed(ProcessDetails processDetails, Form frmMain,
@@ -232,7 +217,7 @@ namespace BorderlessGaming.Logic.Windows
             {
                 if (processDetails.MadeBorderless)
                 {
-                    if (processDetails.MadeBorderlessAttempts > 3 || ! await processDetails.WindowHasTargetableStyles())
+                    if (processDetails.MadeBorderlessAttempts > 3 || !await processDetails.WindowHasTargetableStyles())
                     {
                         return;
                     }
@@ -254,8 +239,8 @@ namespace BorderlessGaming.Logic.Windows
                 styleCurrentWindowStandard
                 & ~(
                     WindowStyleFlags.Caption // composite of Border and DialogFrame
-                    // | WindowStyleFlags.Border
-                    //| WindowStyleFlags.DialogFrame                  
+                                             // | WindowStyleFlags.Border
+                                             //| WindowStyleFlags.DialogFrame                  
                     | WindowStyleFlags.ThickFrame
                     | WindowStyleFlags.OverlappedWindow
                     | WindowStyleFlags.SystemMenu
@@ -396,7 +381,7 @@ namespace BorderlessGaming.Logic.Windows
         private static bool NeedsDelay(IntPtr handle)
         {
             //other game engines
-            var classNames = new List<string> {"YYGameMakerYY"};
+            var classNames = new List<string> { "YYGameMakerYY" };
             var className = Native.GetWindowClassName(handle);
             return IsUnreal(handle) || classNames.Any(name => name.Equals(className));
         }
@@ -433,7 +418,7 @@ namespace BorderlessGaming.Logic.Windows
                 var TaskBarIsCurrentlyVisible = Native.IsWindowVisible(hTaskBar);
                 var wantToMakeWindowsTaskbarVisible = forced == Boolstate.True
                     ? true
-                    : forced ==Boolstate.False
+                    : forced == Boolstate.False
                         ? false
                         : !TaskBarIsCurrentlyVisible;
 
@@ -609,10 +594,10 @@ namespace BorderlessGaming.Logic.Windows
                 //       that mouse movement occurred over it, forcing it to refresh.  Sending messages asking for a repaint or invalidated
                 //       area don't work, but this does.
                 for (uint x = 0; x < rect.Right; x += 5)
-                for (uint y = 0; y < rect.Bottom; y += 5)
-                {
-                    Native.SendMessage(hNotificationArea, Native.WM_MOUSEMOVE, 0, (y << 16) | x);
-                }
+                    for (uint y = 0; y < rect.Bottom; y += 5)
+                    {
+                        Native.SendMessage(hNotificationArea, Native.WM_MOUSEMOVE, 0, (y << 16) | x);
+                    }
             }
             catch
             {

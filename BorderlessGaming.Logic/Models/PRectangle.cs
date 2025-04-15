@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-using ProtoBuf;
+﻿using ProtoBuf;
 
 namespace BorderlessGaming.Logic.Models
 {
@@ -33,11 +32,11 @@ namespace BorderlessGaming.Logic.Models
 
         public override bool Equals(object obj)
         {
-            var rect = (PRectangle) obj;
+            var rect = (PRectangle)obj;
             return rect != null && X == rect.X && Y == rect.Y && Height == rect.Height && Width == rect.Width;
         }
 
-     
+
 
         public override int GetHashCode()
         {

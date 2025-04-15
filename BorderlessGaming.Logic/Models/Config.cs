@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Windows.Forms;
-using BorderlessGaming.Logic.Core;
+﻿using System.Diagnostics;
 using BorderlessGaming.Logic.System;
 using BorderlessGaming.Logic.Windows;
 using CommandLine;
 using ProtoBuf;
+using static System.Windows.Forms.Design.AxImporter;
 
 
 namespace BorderlessGaming.Logic.Models
@@ -37,7 +32,9 @@ namespace BorderlessGaming.Logic.Models
                 Security.SaveConfig(new Config());
             }
             Instance = Security.LoadConfigFile();
-            Parser.Default.ParseArguments(Environment.GetCommandLineArgs(), Instance.StartupOptions);
+
+            var options = Parser.Default.ParseArguments<StartupOptions>(Environment.GetCommandLineArgs());
+            Instance.StartupOptions = options.Value;
         }
 
         public static void Save()
@@ -59,7 +56,7 @@ namespace BorderlessGaming.Logic.Models
                 Save();
             }
         }
-        
+
 
         public void RemoveFavorite(Favorite favorite, Action callback)
         {
@@ -93,10 +90,20 @@ namespace BorderlessGaming.Logic.Models
             return IsHidden(process.ProcessName);
         }
 
+        private HashSet<string> alwaysHiddenProcesses = new HashSet<string>(HiddenProcess.AlwaysHiddenProcesses, StringComparer.OrdinalIgnoreCase);
+        private HashSet<string> hiddenProcesses = null;
+
         public bool IsHidden(string processName)
         {
-            return HiddenProcess.AlwaysHiddenProcesses.Any(process => process.Equals(processName.ToLower())) || HiddenProcesses.Any(process => process.Name.Equals(processName.ToLower()));
+            if (hiddenProcesses == null)
+            {
+                hiddenProcesses = new HashSet<string>(HiddenProcesses.Select(p => p.Name), StringComparer.OrdinalIgnoreCase);
+            }
+
+            return alwaysHiddenProcesses.Contains(processName) || hiddenProcesses.Contains(processName);
         }
-      
+
+
+
     }
 }

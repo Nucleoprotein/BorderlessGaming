@@ -1,17 +1,11 @@
-﻿using System;
-using System.Diagnostics;
-using System.Drawing;
-using System.IO;
+﻿using System.Diagnostics;
 using System.Net.NetworkInformation;
 using System.Reflection;
-using System.Windows.Forms;
 using System.Xml;
 using BorderlessGaming.Logic.Core;
 using BorderlessGaming.Logic.Models;
 using BorderlessGaming.Logic.Properties;
-using BorderlessGaming.Logic.Steam;
 using BorderlessGaming.Logic.System.Utilities;
-using Ionic.Zip;
 
 
 namespace BorderlessGaming.Logic.System
@@ -69,10 +63,6 @@ namespace BorderlessGaming.Logic.System
             }
             Config.Load();
             LanguageManager.Load();
-            if (!Config.Instance.AppSettings.DisableSteamIntegration)
-            {
-                SteamApi.Init();
-            }
         }
 
         public static Rectangle GetContainingRectangle(Rectangle a, Rectangle b)
@@ -102,14 +92,6 @@ namespace BorderlessGaming.Logic.System
             catch
             {
                 // ignored
-            }
-        }
-
-        public static void ExtractZipFile(string archiveFilenameIn, string password, string outFolder)
-        {
-            using (var zip = ZipFile.Read(archiveFilenameIn))
-            {
-                zip.ExtractAll(outFolder, ExtractExistingFileAction.OverwriteSilently);
             }
         }
 

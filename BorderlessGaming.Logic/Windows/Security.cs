@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
+using System.Text.Json;
 using BorderlessGaming.Logic.Models;
 using BorderlessGaming.Logic.System;
 using ProtoBuf;
@@ -8,7 +8,7 @@ namespace BorderlessGaming.Logic.Windows
 {
     public static class Security
     {
-        private static readonly byte[] Salt = {0x33, 0x92, 0x91, 0x12, 0x28, 0x19};
+        private static readonly byte[] Salt = { 0x33, 0x92, 0x91, 0x12, 0x28, 0x19 };
 
         public static byte[] Encrypt(byte[] plainText)
         {
@@ -26,25 +26,32 @@ namespace BorderlessGaming.Logic.Windows
         /// <param name="instance"></param>
         public static void SaveConfig(Config instance)
         {
-            using (var memoryStream = new MemoryStream())
+            try
             {
-                Serializer.Serialize(memoryStream, instance);
-                File.WriteAllBytes(AppEnvironment.ConfigPath, memoryStream.ToArray());
+                string json = JsonSerializer.Serialize(instance, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(AppEnvironment.ConfigPath, json);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving config: {ex.Message}");
             }
         }
-
 
         public static Config LoadConfigFile()
         {
             try
             {
-                using (var memoryStream = new MemoryStream(File.ReadAllBytes(AppEnvironment.ConfigPath)))
+                if (!File.Exists(AppEnvironment.ConfigPath))
                 {
-                    return Serializer.Deserialize<Config>(memoryStream);
+                    SaveConfig(new Config());
                 }
+
+                string json = File.ReadAllText(AppEnvironment.ConfigPath);
+                return JsonSerializer.Deserialize<Config>(json) ?? new Config();
             }
-            catch (global::System.Exception)
+            catch (Exception ex)
             {
+                Console.WriteLine($"Error loading config: {ex.Message}");
                 File.Delete(AppEnvironment.ConfigPath);
                 SaveConfig(new Config());
                 return LoadConfigFile();

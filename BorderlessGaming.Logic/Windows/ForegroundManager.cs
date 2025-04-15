@@ -1,10 +1,4 @@
-﻿using System;
-using System.ComponentModel;
-using System.Diagnostics;
-using System.Drawing;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
+﻿using System.Diagnostics;
 using BorderlessGaming.Logic.Models;
 
 namespace BorderlessGaming.Logic.Windows
@@ -17,30 +11,25 @@ namespace BorderlessGaming.Logic.Windows
         public static void Subscribe()
         {
             _dele = WinEventProc;
-           _mHhook = Native.SetWinEventHook(EventSystemForeground, EventSystemForeground, IntPtr.Zero, _dele, 0, 0, WineventOutofcontext);
+            _mHhook = Native.SetWinEventHook(Native.EVENT_SYSTEM_FOREGROUND, Native.EVENT_SYSTEM_FOREGROUND, IntPtr.Zero, _dele, 0, 0, Native.WINEVENT_OUTOFCONTEXT | Native.WINEVENT_SKIPOWNPROCESS);
         }
 
-        private const uint WineventOutofcontext = 0;
-        private const uint EventSystemForeground = 3;
-
-   
         public static void WinEventProc(IntPtr hWinEventHook, uint eventType, IntPtr hwnd, int idObject, int idChild, uint dwEventThread, uint dwmsEventTime)
         {
             if (Config.Instance.Favorites != null)
             {
                 try
                 {
-                    var handle = Native.GetForegroundWindow();
-                    Native.GetWindowThreadProcessId(handle, out uint processId);
-                    var details = new ProcessDetails(Process.GetProcessById((int)processId), handle);
+                    Native.GetWindowThreadProcessId(hwnd, out uint processId);
+                    var details = new ProcessDetails(Process.GetProcessById((int)processId), hwnd);
                     foreach (var fav in Config.Instance.Favorites.Where(favorite => favorite.IsRunning && favorite.MuteInBackground))
                     {
-                     
+
                         if (fav.Matches(details))
                         {
-                            if (Native.IsMuted((int) processId))
+                            if (Native.IsMuted((int)processId))
                             {
-                                Native.UnMuteProcess((int) processId);
+                                Native.UnMuteProcess((int)processId);
                             }
                         }
                         else
@@ -51,14 +40,14 @@ namespace BorderlessGaming.Logic.Windows
                             }
                         }
                     }
-                    
+
                 }
                 catch (Exception)
                 {
-                   //
+                    //
                 }
             }
-          
+
         }
     }
 }

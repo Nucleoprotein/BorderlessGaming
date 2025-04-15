@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Globalization;
-using System.IO;
-using System.Linq;
+﻿using System.Globalization;
 using System.Text;
-using System.Windows.Forms;
 using BorderlessGaming.Logic.Core;
 
 namespace BorderlessGaming.Logic.Models
@@ -25,7 +19,7 @@ namespace BorderlessGaming.Logic.Models
 
         internal string Data(string key)
         {
-          
+
             return LanguageData.ContainsKey(key) ? LanguageData[key] : null;
         }
 
@@ -43,7 +37,7 @@ namespace BorderlessGaming.Logic.Models
                 {
                     continue;
                 }
-                var languageData = line.Split(new[] {'|'}, 2);
+                var languageData = line.Split(new[] { '|' }, 2);
                 var key = languageData[0].Trim().ToLower();
                 var data = languageData[1].Trim();
                 if (!LanguageData.ContainsKey(key))

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.IO;
-using System.Windows.Forms;
+﻿using System.Diagnostics;
 using ProtoBuf;
 
 namespace BorderlessGaming.Logic.System.Utilities
@@ -10,7 +7,7 @@ namespace BorderlessGaming.Logic.System.Utilities
     internal class ExceptionModel
     {
         [ProtoMember(1)]
-     public string Message { get; set; }   
+        public string Message { get; set; }
         [ProtoMember(2)]
         public string Type { get; set; }
         [ProtoMember(3)]
@@ -34,7 +31,7 @@ namespace BorderlessGaming.Logic.System.Utilities
                     var filePath = Path.Combine(LogsPath,
                         $"UnhandledException_{DateTime.Now.ToShortDateString().Replace("/", "-")}.crash");
 
-                    var exception = (Exception) args.ExceptionObject;
+                    var exception = (Exception)args.ExceptionObject;
                     using (var file = File.Create(filePath))
                     {
                         Serializer.Serialize(file, new ExceptionModel
